@@ -2,7 +2,7 @@
 
 #include <string>
 
-enum class Genre {
+enum class Genre { //Available Genres
     Action,
     Comedy,
     Drama,
@@ -16,7 +16,7 @@ enum class Genre {
     Animation
 };
 
-enum class ContentType {
+enum class ContentType { //Available Contents
     Movie,
     Series,
     Documentary,
@@ -28,7 +28,7 @@ enum class ContentType {
     Show
 };
 
-class Content {
+class Content { //Content Atributes
 private:
     int id;
     std::string title;
@@ -40,7 +40,7 @@ private:
     int releaseYear;
 
 public:
-    Content(
+    Content( //Constructor
         int id,
         const std::string& title,
         const std::string& description,
@@ -58,6 +58,7 @@ public:
           viewCount(0),
           releaseYear(releaseYear) {}
 
+    //Getters      
     int getId() const { return id; }
     const std::string& getTitle() const { return title; }
     const std::string& getDescription() const { return description; }
