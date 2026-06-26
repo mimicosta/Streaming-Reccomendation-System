@@ -2,49 +2,101 @@
 #include <iostream>
 
 void MostWatchedContentHistory::addContent(const Content& content) {
-    DoublyNode* newNode = new DoublyNode(content);
-
-    if (!head) {
-        head = newNode;
-        return;
-    }
-
+    // 1. Check if the content is already in the history list
     DoublyNode* current = head;
-
-    while (current &&
-           current->content.getViewCount() >= content.getViewCount()) {
+    DoublyNode* existingNode = nullptr;
+    while (current != nullptr) {
+        if (current->content.getId() == content.getId()) {
+            existingNode = current;
+            break;
+        }
         current = current->next;
     }
 
-    if (current == head) {
-        newNode->next = head;
-        head->prev = newNode;
-        head = newNode;
-    }
-    else if (!current) {
-        DoublyNode* tail = head;
+    if (existingNode) {
+        existingNode->content = content; 
 
-        while (tail->next) tail = tail->next;
+        if (existingNode == head) {
+            return;
+        }
 
-        tail->next = newNode;
-        newNode->prev = tail;
-    }
+        if (existingNode->prev) {
+            existingNode->prev->next = existingNode->next;
+        }
+        if (existingNode->next) {
+            existingNode->next->prev = existingNode->prev;
+        } else {
+            tail = existingNode->prev;
+        }
 
-    else {
-        newNode->next = current;
-        newNode->prev = current->prev;
+        existingNode->next = nullptr;
+        existingNode->prev = nullptr;
 
-        current->prev->next = newNode;
-        current->prev = newNode;
+        DoublyNode* target = head;
+        if (existingNode->content.getViewCount() > target->content.getViewCount()) {
+            existingNode->next = target;
+            target->prev = existingNode;
+            head = existingNode;
+            return;
+        }
+
+        while (target->next && target->next->content.getViewCount() >= existingNode->content.getViewCount()) {
+            target = target->next;
+        }
+
+        existingNode->next = target->next;
+        existingNode->prev = target;
+        if (target->next) {
+            target->next->prev = existingNode;
+        } else {
+            tail = existingNode;
+        }
+        target->next = existingNode;
+
+    } else {
+        DoublyNode* newNode = new DoublyNode(content);
+
+        if (!head) {
+            head = newNode;
+            tail = newNode;
+            return;
+        }
+
+        if (newNode->content.getViewCount() > head->content.getViewCount()) {
+            newNode->next = head;
+            head->prev = newNode;
+            head = newNode;
+            return;
+        }
+
+        DoublyNode* target = head;
+        while (target->next && target->next->content.getViewCount() >= newNode->content.getViewCount()) {
+            target = target->next;
+        }
+
+        newNode->next = target->next;
+        newNode->prev = target;
+        if (target->next) {
+            target->next->prev = newNode;
+        } else {
+            tail = newNode;
+        }
+        target->next = newNode;
     }
 }
 
 void MostWatchedContentHistory::displayHistory() const {
+    if (head == nullptr) {
+        std::cout << "No viewing history yet.\n";
+        return;
+    }
     DoublyNode* current = head;
-
+    int rank = 1;
     while (current) {
-        std::cout << "Title: " << current->content.getTitle()
-                  << ", Views: " << current->content.getViewCount() << std::endl;
+        std::cout << rank++ << ". " << current->content.getTitle()
+                  << " | Type: " << current->content.typeToString(current->content.getType())
+                  << " | Genre: " << current->content.genreToString(current->content.getGenre())
+                  << " | Views: " << current->content.getViewCount() << std::endl;
         current = current->next;
     }
 }

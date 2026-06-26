@@ -1,7 +1,63 @@
-a
-b
-c
-d
-e
-f
-g
+Séries de Fantasia e Ficção Científica Clássicas
+Gostaria de ver uma série lançada recentemente (de 2015 em diante)?
+Séries de Fantasia e Ficção Científica Recentes
+Prefere séries focadas em Comédia/Sitcom em vez de Fantasia/Ficção Científica?
+Séries de Comédia Clássicas
+Gostaria de ver uma série lançada recentemente (de 2015 em diante)?
+Séries de Comédia Recentes
+Prefere séries de Drama, Suspense ou Mistério em vez de Comédia ou Fantasia?
+Séries de Drama e Romance Clássicas
+Gostaria de ver uma série lançada recentemente (de 2015 em diante)?
+Séries de Drama e Romance Recentes
+Prefere séries focadas em Crime e Investigação Policial em vez de Drama Geral?
+Séries de Crime, Mistério e Suspense Clássicas
+Gostaria de ver uma série lançada recentemente (de 2015 em diante)?
+Séries de Crime, Mistério e Suspense Recentes
+Prefere produções animadas no estilo japonês (Animes) em vez de Séries convencionais (Live-Action)?
+Animes de Comédia Clássicos
+Gostaria de ver um anime lançado recentemente (de 2015 em diante)?
+Animes de Comédia Recentes
+Prefere animes focados em Romance ou Drama em vez de Comédia e Cotidiano?
+Animes de Drama e Romance Clássicos
+Gostaria de ver um anime lançado recentemente (de 2015 em diante)?
+Animes de Drama e Romance Recentes
+Prefere animes de Ação e Aventura (Shonen/Lutas) em vez de Comédia, Drama ou Romance?
+Animes de Ação Realista Clássicos
+Gostaria de ver um anime lançado recentemente (de 2015 em diante)?
+Animes de Ação Realista Recentes
+Prefere animes com temática de Fantasia ou Ficção Científica (Mundos Mágicos/Futuristas)?
+Animes de Ação Fantástica e Sci-Fi Clássicos
+Gostaria de ver um anime lançado recentemente (de 2015 em diante)?
+Animes de Ação Fantástica e Sci-Fi Recentes
+Deseja assistir a um FILME (ou Documentário) em vez de produções seriadas (Séries/Animes)?
+Documentários de História e Sociedade Clássicos
+Gostaria de ver um documentário lançado recentemente (de 2015 em diante)?
+Documentários de História e Sociedade Recentes
+Prefere documentários sobre Crimes Reais e Investigação em vez de História e Sociedade?
+Documentários de Crimes Reais Clássicos
+Gostaria de ver um documentário lançado recentemente (de 2015 em diante)?
+Documentários de Crimes Reais Recentes
+Prefere documentários sobre Ciência, Espaço e Tecnologia em vez de Sociedade, História ou Crime?
+Documentários de Tecnologia e Natureza Clássicos
+Gostaria de ver um documentário lançado recentemente (de 2015 em diante)?
+Documentários de Tecnologia e Natureza Recentes
+Prefere documentários sobre o Espaço e Universo em vez de Tecnologia e Natureza?
+Documentários de Espaço e Universo Clássicos
+Gostaria de ver um documentário lançado recentemente (de 2015 em diante)?
+Documentários de Espaço e Universo Recentes
+Prefere produções de entretenimento e ficção (Filmes) em vez de documentações reais (Documentários)?
+Filmes de Comédia e Drama Clássicos
+Gostaria de ver um filme lançado recentemente (de 2015 em diante)?
+Filmes de Comédia e Drama Recentes
+Prefere filmes de Terror ou Suspense em vez de Comédia ou Drama?
+Filmes de Terror e Suspense Clássicos
+Gostaria de ver um filme lançado recentemente (de 2015 em diante)?
+Filmes de Terror e Suspense Recentes
+Prefere filmes de Ação, Aventura ou Ficção Científica em vez de Comédia, Drama ou Terror?
+Filmes de Ação e Aventura Clássicos
+Gostaria de ver um filme lançado recentemente (de 2015 em diante)?
+Filmes de Ação e Aventura Recentes
+Prefere filmes de Ficção Científica e Fantasia em vez de Ação e Aventura Realistas?
+Filmes de Ficção Científica e Fantasia Clássicos
+Gostaria de ver um filme lançado recentemente (de 2015 em diante)?
+Filmes de Ficção Científica e Fantasia Recentes
