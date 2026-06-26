@@ -34,7 +34,7 @@ void SimpleList::add(std::string text) {
     }
 }
 
-std::string SimpleList::getQuestion(int index) {
+std::string SimpleList::getQuestion(int index) { //PS: Index starts in 1, not in 0
     SimpleNode* auxNode = start;
 
     while (auxNode != nullptr && auxNode->index != index) {
