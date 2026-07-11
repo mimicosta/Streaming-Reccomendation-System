@@ -46,6 +46,7 @@ int main() {
                 processRecommendation(db, tree, history);
                 break;
             case 3:
+                history.displayHistory();
                 break;
             case 4:
                 std::cout << "\nSaindo... Agradecemos por usar a plataforma!\n";
@@ -130,7 +131,7 @@ void manageCatalog(ContentDatabase& db){
                     break;
                 }
 
-                try {
+                try { // Para tratar essa excessão sem comprometer o funcionamento!
                     ContentType type = Content::stringToType(typeStr);
                     Genre genre = Content::stringToGenre(genreStr);
 
