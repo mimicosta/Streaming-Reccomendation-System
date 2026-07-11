@@ -27,8 +27,6 @@ bool BehaviorTree::isLeaf(TreeNode* node) {
     return node != nullptr && node->right == nullptr && node->left == nullptr;
 }
 
-
-
 //More complex methods
 TreeNode* BehaviorTree::insertQuestion(TreeNode* node, std::string question, int index) { //Puts Node in correct position based on index
     if (node == nullptr) {

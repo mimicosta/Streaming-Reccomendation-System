@@ -1,6 +1,6 @@
 #pragma once
 
-#include "TreeNode.hpp"
+#include "Nodes/TreeNode.hpp"
 #include "SimpleList.hpp"
 #include <string>
 

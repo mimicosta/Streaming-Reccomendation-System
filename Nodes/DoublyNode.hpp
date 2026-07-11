@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Content.hpp"
+#include "../Content.hpp"
 
 class DoublyNode
 {
