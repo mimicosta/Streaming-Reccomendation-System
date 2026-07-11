@@ -67,6 +67,36 @@ void ContentDatabase::readSetupFile(std::string filepath){
     }
 }
 
+void ContentDatabase::removeContent(int id) {
+    if (isEmpty()) return;
+
+    DoublyNode* current = start;
+
+    if (start->content.getId() == id) {
+        start = start->next;
+        if (start != nullptr) {
+            start->prev = nullptr;
+        }
+        delete current;
+        return;
+    }
+
+    while (current != nullptr && current->content.getId() != id) {
+        current = current->next;
+    }
+
+    if (current != nullptr) {
+        if (current->next != nullptr) {
+            current->next->prev = current->prev;
+        }
+        if (current->prev != nullptr) {
+            current->prev->next = current->next;
+        }
+        delete current;
+    }
+}
+
+
 void ContentDatabase::printAll() {
     DoublyNode* current = start;
     int count = 1;

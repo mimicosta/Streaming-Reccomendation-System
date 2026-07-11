@@ -11,4 +11,5 @@ public:
     MostWatchedContentHistory() : head(nullptr), tail(nullptr) {}
     void addContent(const Content& content);
     void displayHistory() const;
+    DoublyNode* getHead() const { return head; }
 };
