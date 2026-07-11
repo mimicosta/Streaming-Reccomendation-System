@@ -49,6 +49,8 @@ int main() {
                 history.displayHistory();
                 break;
             case 4:
+                break;
+            case 5:
                 std::cout << "\nSaindo... Agradecemos por usar a plataforma!\n";
                 return 0;
                 break;
