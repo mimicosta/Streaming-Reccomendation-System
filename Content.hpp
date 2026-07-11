@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <stdexcept>
 
 enum class Genre { //Available Genres
     Action,
@@ -103,4 +104,32 @@ public:
     }
     return "";
     }   
+
+    static Genre stringToGenre(const std::string& str) {
+        if (str == "Action") return Genre::Action;
+        if (str == "Comedy") return Genre::Comedy;
+        if (str == "Drama") return Genre::Drama;
+        if (str == "Horror") return Genre::Horror;
+        if (str == "Science Fiction") return Genre::ScienceFiction;
+        if (str == "Romance") return Genre::Romance;
+        if (str == "Thriller") return Genre::Thriller;
+        if (str == "Fantasy") return Genre::Fantasy;
+        if (str == "Mystery") return Genre::Mystery;
+        if (str == "Crime") return Genre::Crime;
+        if (str == "Animation") return Genre::Animation;
+        throw std::invalid_argument("Genero invalido: " + str);
+    }
+
+    static ContentType stringToType(const std::string& str) {
+        if (str == "Movie") return ContentType::Movie;
+        if (str == "Series") return ContentType::Series;
+        if (str == "Documentary") return ContentType::Documentary;
+        if (str == "Anime") return ContentType::Anime;
+        if (str == "Miniseries") return ContentType::Miniseries;
+        if (str == "Short Film") return ContentType::ShortFilm;
+        if (str == "Reality Show") return ContentType::RealityShow;
+        if (str == "TV Program") return ContentType::TVProgram;
+        if (str == "Show") return ContentType::Show;
+        throw std::invalid_argument("Genero invalido: " + str);
+    }
 };

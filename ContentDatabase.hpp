@@ -8,11 +8,13 @@
 
 class ContentDatabase{
 private:
-    DoublyNode start;
+    DoublyNode *start;
 
 public:
     ContentDatabase();
     ~ContentDatabase();
+    bool isEmpty();
     void readSetupFile(std::string filepath);
-    void insertContent(Content newContent);
+    void insertContent(Content *newContent);
+    void printAll();
 };
