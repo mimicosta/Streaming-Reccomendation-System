@@ -1,13 +1,13 @@
 #include "ContentDatabase.hpp"
 #include "BehaviorTree.hpp"
 #include <string>
+
 std::string contentsPath = "setupFiles/contents.txt";
 std::string questionsPath = "setupFiles/questions.txt";
 
-
-void initializePresets(){
-    ContentDatabase::readSetupFile(questionsPath);
-    BehaviorTree::readFile(contentsPath);
+void initializePresets(ContentDatabase& db, BehaviorTree& tree) {
+    db.readSetupFile(contentsPath);
+    tree.readFile(questionsPath);
 }
 
 // int main() {    CÓDIGO QUE A IA GEROU PARA TESTAR FACIL
