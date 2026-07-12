@@ -102,15 +102,14 @@ void ContentDatabase::printAll() {
     int count = 1;
     while (current != nullptr) {
         Content& c = current->content;
-        std::cout << "--- Conteudo " << count << " ---" << std::endl;
-        std::cout << "ID: " << c.getId() << std::endl;
-        std::cout << "Titulo: " << c.getTitle() << std::endl;
-        std::cout << "Descricao: " << c.getDescription() << std::endl;
-        std::cout << "Tipo: " << c.typeToString(c.getType()) << std::endl;
-        std::cout << "Genero: " << c.genreToString(c.getGenre()) << std::endl;
-        std::cout << "Duracao: " << c.getDuration() << " min" << std::endl;
-        std::cout << "Ano: " << c.getReleaseYear() << std::endl;
-        std::cout << std::endl;
+        std::cout
+            << "  \033[36m\033[1m🎬 [" << count << "] " << c.getTitle() << "\033[0m\n"
+            << "     \033[33mID:\033[0m " << c.getId() << "\n"
+            << "     \033[33mTipo:\033[0m " << c.typeToString(c.getType()) << "\n"
+            << "     \033[33mGênero:\033[0m " << c.genreToString(c.getGenre()) << "\n"
+            << "     \033[33mAno:\033[0m " << c.getReleaseYear() << " | \033[33mDuração:\033[0m " << c.getDuration() << " min\n"
+            << "     \033[35mDescrição:\033[0m " << c.getDescription() << "\n"
+            << "  \033[35m──────────────────────────────────────────────────\033[0m\n\n";
         current = current->next;
         count++;
     }
