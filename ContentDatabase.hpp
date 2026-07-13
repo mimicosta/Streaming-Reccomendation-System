@@ -16,5 +16,7 @@ public:
     bool isEmpty();
     void readSetupFile(std::string filepath);
     void insertContent(Content *newContent);
+    void removeContent(int id);
     void printAll();
+    DoublyNode* getStart() const { return start; }
 };

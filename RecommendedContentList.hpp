@@ -9,6 +9,8 @@ private:
 public:
     RecommendedContentList() : head(nullptr) {}
 
+    DoublyNode* getHead() const { return head; }
+
     void addContent(const Content& content);
     RecommendedContentList filterPerCategory(const std::string& category) const;
     void removeContent(int id);
