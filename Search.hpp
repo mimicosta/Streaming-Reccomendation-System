@@ -20,4 +20,5 @@ public:
     ~Search();
     void buildFromDatabase(ContentDatabase& db);
     void autoComplete(const std::string& prefix);
+    std::vector<Content*> search(const std::string& prefix, int limit = 5);
 };

@@ -2,6 +2,7 @@
 #include "BehaviorTree.hpp"
 #include "MostWatchedContentHistory.hpp"
 #include "RecommendedContentList.hpp"
+#include "Search.hpp"
 #include <string>
 #include <iostream>
 
@@ -29,6 +30,7 @@ std::string questionsPath = "setupFiles/questions.txt";
 
 void manageCatalog(ContentDatabase& db);
 void processRecommendation(ContentDatabase& db, BehaviorTree& tree, MostWatchedContentHistory& history);
+void processSearch(ContentDatabase& db, MostWatchedContentHistory& history);
 void initializePresets(ContentDatabase& db, BehaviorTree& tree);
 
 int main() {
@@ -48,8 +50,9 @@ int main() {
         std::cout << CYAN << "  [1]" << RESET << " 📁 Catálogo (listar, inserir ou remover)\n";
         std::cout << CYAN << "  [2]" << RESET << " 🎬 Recomendação personalizada\n";
         std::cout << CYAN << "  [3]" << RESET << " ⏳ Histórico de mais assistidos\n";
-        std::cout << CYAN << "  [4]" << RESET << " 📊 Estatísticas gerais do sistema\n";
-        std::cout << CYAN << "  [5]" << RESET << " ❌ Sair\n";
+        std::cout << CYAN << "  [4]" << RESET << " 🔍 Pesquisar por nome\n";
+        std::cout << CYAN << "  [5]" << RESET << " 📊 Estatísticas gerais do sistema\n";
+        std::cout << CYAN << "  [6]" << RESET << " ❌ Sair\n";
         std::cout << MAGENTA << "────────────────────────────────────────────────\n" << RESET;
         std::cout << "Escolha uma opção: ";
         std::cin >> opçao;
@@ -79,6 +82,9 @@ int main() {
                 pauseScreen();
                 break;
             case 4:
+                processSearch(db, history);
+                break;
+            case 5:
                 clearScreen();
                 std::cout << MAGENTA << BOLD << "┌──────────────────────────────────────────────┐\n";
                 std::cout << "│         📊 ESTATÍSTICAS GERAIS               │\n";
@@ -86,7 +92,7 @@ int main() {
                 std::cout << "Recurso em desenvolvimento ou nenhuma estatística disponível.\n";
                 pauseScreen();
                 break;
-            case 5:
+            case 6:
                 clearScreen();
                 std::cout << GREEN << "\nSaindo... Agradecemos por usar a plataforma!\n\n" << RESET;
                 return 0;
@@ -314,6 +320,72 @@ void processRecommendation(ContentDatabase& db, BehaviorTree& tree, MostWatchedC
         std::cout << RED << "[!] O ID não foi encontrado nas recomendações.\n" << RESET;
     }
     pauseScreen();
+}
+
+void processSearch(ContentDatabase& db, MostWatchedContentHistory& history) {
+    Search s;
+    s.buildFromDatabase(db);
+    std::string prefix;
+
+    while (true) {
+        clearScreen();
+        std::cout << MAGENTA << BOLD << "┌──────────────────────────────────────────────┐\n";
+        std::cout << "│            🔍 PESQUISA DE CONTEÚDO           │\n";
+        std::cout << "└──────────────────────────────────────────────┘\n\n" << RESET;
+        std::cout << "Digite o nome (ou parte dele) para buscar (ou '0' para voltar): ";
+        std::getline(std::cin, prefix);
+
+        if (prefix == "0") {
+            break;
+        }
+
+        if (prefix.empty()) {
+            std::cout << YELLOW << "\nDigite algo para buscar.\n" << RESET;
+            pauseScreen();
+            continue;
+        }
+
+        std::vector<Content*> results = s.search(prefix, 5);
+
+        std::cout << "\nSugestões para \"" << prefix << "\":\n";
+        std::cout << "  ──────────────────────────────────────────────────\n";
+        if (results.empty()) {
+            std::cout << "  Nenhuma sugestão encontrada.\n";
+            std::cout << "  ──────────────────────────────────────────────────\n\n";
+            std::cout << YELLOW << "Pressione Enter para realizar outra busca..." << RESET;
+            std::cin.get();
+            continue;
+        }
+
+        for (size_t i = 0; i < results.size(); ++i) {
+            Content* content = results[i];
+            std::cout << "  " << CYAN << "[" << (i + 1) << "]" << RESET << " " << content->getTitle() 
+                      << " \033[33m(" << content->genreToString(content->getGenre()) << ")\033[0m\n";
+        }
+        std::cout << "  ──────────────────────────────────────────────────\n\n";
+
+        int choice = 0;
+        std::cout << "Digite o número correspondente para assistir (ou 0 para nova busca): ";
+        std::cin >> choice;
+
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(10000, '\n');
+            continue;
+        }
+        std::cin.ignore(10000, '\n');
+
+        if (choice >= 1 && choice <= static_cast<int>(results.size())) {
+            Content* selected = results[choice - 1];
+            selected->incrementViews();
+            
+            history.addContent(*selected);
+            
+            std::cout << GREEN << "\n[!] Assistindo: \"" << selected->getTitle() << "\"...\n" << RESET;
+            std::cout << "Visualização contabilizada com sucesso!\n";
+            pauseScreen();
+        }
+    }
 }
 
 void initializePresets(ContentDatabase& db, BehaviorTree& tree) {

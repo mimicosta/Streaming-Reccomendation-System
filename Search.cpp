@@ -105,3 +105,11 @@ void Search::autoComplete(const std::string& prefix) {
     }
     std::cout << "  ──────────────────────────────────────────────────\n\n";
 }
+
+std::vector<Content*> Search::search(const std::string& prefix, int limit) {
+    std::vector<Content*> results;
+    if (root != nullptr && !prefix.empty()) {
+        searchInTree(root, prefix, results, limit);
+    }
+    return results;
+}
