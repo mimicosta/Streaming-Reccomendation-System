@@ -1,4 +1,7 @@
 #include "ContentDatabase.hpp"
+#include <string>
+#include <fstream>
+#include <iostream>
 
 ContentDatabase::ContentDatabase() {
     start = nullptr;
@@ -95,7 +98,6 @@ void ContentDatabase::removeContent(int id) {
         delete current;
     }
 }
-
 
 void ContentDatabase::printAll() {
     DoublyNode* current = start;

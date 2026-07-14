@@ -6,7 +6,11 @@
 #include <iostream>
 #include <fstream>
 
-class ContentDatabase{
+class Search;
+
+class ContentDatabase {
+    friend class Search;
+
 private:
     DoublyNode *start;
 
