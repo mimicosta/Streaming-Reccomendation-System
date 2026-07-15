@@ -97,7 +97,7 @@ void Search::autoComplete(const std::string& prefix) {
     std::cout << "  ──────────────────────────────────────────────────\n";
     for (auto* content : results) {
         std::cout << " " << content->getTitle() 
-                  << " \033[33m(" << content->genreToString(content->getGenre()) << ")\033[0m\n";
+                  << " \033[36m(" << content->genreToString(content->getGenre()) << ")\033[0m\n";
     }
 
     if (results.empty()) {

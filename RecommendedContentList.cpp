@@ -60,11 +60,11 @@ void RecommendedContentList::display() const {
     while (current) {
         std::cout
             << "  \033[36m\033[1m🎬 " << current->content.getTitle() << "\033[0m\n"
-            << "     \033[33mID:\033[0m " << current->content.getId() << "\n"
-            << "     \033[33mTipo:\033[0m " << current->content.typeToString(current->content.getType()) << "\n"
-            << "     \033[33mGênero:\033[0m " << current->content.genreToString(current->content.getGenre()) << "\n"
-            << "     \033[33mAno:\033[0m " << current->content.getReleaseYear() << " | \033[33mDuração:\033[0m " << current->content.getDuration() << " min\n"
-            << "     \033[33mVisualizações:\033[0m " << current->content.getViewCount() << "\n"
+            << "     \033[36mID:\033[0m " << current->content.getId() << "\n"
+            << "     \033[36mTipo:\033[0m " << current->content.typeToString(current->content.getType()) << "\n"
+            << "     \033[36mGênero:\033[0m " << current->content.genreToString(current->content.getGenre()) << "\n"
+            << "     \033[36mAno:\033[0m " << current->content.getReleaseYear() << " | \033[36mDuração:\033[0m " << current->content.getDuration() << " min\n"
+            << "     \033[36mVisualizações:\033[0m " << current->content.getViewCount() << "\n"
             << "     \033[35mDescrição:\033[0m " << current->content.getDescription() << "\n"
             << "  \033[35m──────────────────────────────────────────────────\033[0m\n\n";
         current = current->next;
