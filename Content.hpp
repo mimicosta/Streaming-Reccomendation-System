@@ -56,7 +56,7 @@ public:
           type(type),
           genre(genre),
           duration(duration),
-          viewCount(0),
+          viewCount((id % 5 == 0) ? 0 : ((id * 113) % 9999 + 1)), // Números arbitrários de visualizações (20% ficam com 0)
           releaseYear(releaseYear) {}
 
     //Getters      
