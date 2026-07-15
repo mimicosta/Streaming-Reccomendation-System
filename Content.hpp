@@ -41,7 +41,7 @@ private:
     int releaseYear;
 
 public:
-    Content( //Constructor
+    Content(
         int id,
         const std::string& title,
         const std::string& description,
@@ -56,7 +56,7 @@ public:
           type(type),
           genre(genre),
           duration(duration),
-          viewCount((id % 5 == 0) ? 0 : ((id * 113) % 9999 + 1)), // Números arbitrários de visualizações (20% ficam com 0)
+          viewCount((id % 5 == 0) ? 0 : ((id * 113) % 9999 + 1)), 
           releaseYear(releaseYear) {}
 
     //Getters      

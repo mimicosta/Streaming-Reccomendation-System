@@ -31,14 +31,14 @@ std::string questionsPath = "setupFiles/questions.txt";
 void manageCatalog(ContentDatabase& db);
 void processRecommendation(ContentDatabase& db, BehaviorTree& tree, MostWatchedContentHistory& history);
 void processSearch(ContentDatabase& db, MostWatchedContentHistory& history);
-void initializePresets(ContentDatabase& db, BehaviorTree& tree);
+void initializePresets(ContentDatabase& db, BehaviorTree& tree, MostWatchedContentHistory& history);
 
 int main() {
     ContentDatabase db;
     BehaviorTree tree;
     MostWatchedContentHistory history;
 
-    initializePresets(db, tree);
+    initializePresets(db, tree, history);
 
     int opçao = 0;
 
@@ -407,7 +407,16 @@ void processSearch(ContentDatabase& db, MostWatchedContentHistory& history) {
     }
 }
 
-void initializePresets(ContentDatabase& db, BehaviorTree& tree) {
+void initializePresets(ContentDatabase& db, BehaviorTree& tree, MostWatchedContentHistory& history) {
     db.readSetupFile(contentsPath);
     tree.readFile(questionsPath);
+
+    // Inicializa o historico de mais assistidos a partir das views do banco
+    DoublyNode* current = db.getStart();
+    while (current != nullptr) {
+        if (current->content.getViewCount() > 0) {
+            history.addContent(current->content);
+        }
+        current = current->next;
+    }
 }
