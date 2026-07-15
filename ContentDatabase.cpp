@@ -99,6 +99,56 @@ void ContentDatabase::removeContent(int id) {
     }
 }
 
+void ContentDatabase::loadGenreCounts(const std::string& filepath) {
+    std::ifstream file(filepath);
+    std::string line;
+    int i = 0;
+    while (std::getline(file, line) && i < 11) {
+        genreCount[i] = std::stoi(line);
+        i++;
+    }
+}
+
+void ContentDatabase::saveGenreCounts(const std::string& filepath) {
+    std::ofstream file(filepath);
+    for (int i = 0; i < 11; i++) {
+        file << genreCount[i] << "\n";
+    }
+}
+
+void ContentDatabase::loadTypeCounts(const std::string& filepath) {
+    std::ifstream file(filepath);
+    std::string line;
+    int i = 0;
+    while (std::getline(file, line) && i < 9) {
+        typeCount[i] = std::stoi(line);
+        i++;
+    }
+}
+
+void ContentDatabase::saveTypeCounts(const std::string& filepath) {
+    std::ofstream file(filepath);
+    for (int i = 0; i < 9; i++) {
+        file << typeCount[i] << "\n";
+    }
+}
+
+void ContentDatabase::incrementGenreCount(Genre genre) {
+    genreCount[(int)genre]++;
+}
+
+void ContentDatabase::incrementTypeCount(ContentType type) {
+    typeCount[(int)type]++;
+}
+
+int ContentDatabase::getGenreCount(Genre genre) {
+    return genreCount[(int)genre];
+}
+
+int ContentDatabase::getTypeCount(ContentType type) {
+    return typeCount[(int)type];
+}
+
 void ContentDatabase::printAll() {
     DoublyNode* current = start;
     int count = 1;
