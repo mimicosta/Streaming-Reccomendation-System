@@ -87,7 +87,7 @@ void MostWatchedContentHistory::addContent(const Content& content) {
 
 void MostWatchedContentHistory::displayHistory() const {
     if (head == nullptr) {
-        std::cout << "   \033[33mNenhum histórico de visualização disponível ainda.\033[0m\n";
+        std::cout << "   \033[36mNenhum histórico de visualização disponível ainda.\033[0m\n";
         return;
     }
     DoublyNode* current = head;
@@ -100,8 +100,8 @@ void MostWatchedContentHistory::displayHistory() const {
 
         std::cout
             << "  " << medal << "\033[36m\033[1mRank #" << rank << " - " << current->content.getTitle() << "\033[0m\n"
-            << "     \033[33mTipo:\033[0m " << current->content.typeToString(current->content.getType())
-            << " | \033[33mGênero:\033[0m " << current->content.genreToString(current->content.getGenre())
+            << "     \033[36mTipo:\033[0m " << current->content.typeToString(current->content.getType())
+            << " | \033[36mGênero:\033[0m " << current->content.genreToString(current->content.getGenre())
             << " | \033[32mVisualizações:\033[0m " << current->content.getViewCount() << "\n"
             << "  \033[35m──────────────────────────────────────────────────\033[0m\n\n";
         current = current->next;

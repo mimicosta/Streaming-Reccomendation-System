@@ -10,7 +10,7 @@ const std::string RESET   = "\033[0m";
 const std::string BOLD    = "\033[1m";
 const std::string RED     = "\033[31m";
 const std::string GREEN   = "\033[32m";
-const std::string YELLOW  = "\033[33m";
+const std::string YELLOW  = "\033[36m";
 const std::string BLUE    = "\033[34m";
 const std::string MAGENTA = "\033[35m";
 const std::string CYAN    = "\033[36m";
@@ -52,7 +52,8 @@ int main() {
         std::cout << CYAN << "  [3]" << RESET << " ⏳ Histórico de mais assistidos\n";
         std::cout << CYAN << "  [4]" << RESET << " 🔍 Pesquisar por nome\n";
         std::cout << CYAN << "  [5]" << RESET << " 📊 Estatísticas gerais do sistema\n";
-        std::cout << CYAN << "  [6]" << RESET << " ❌ Sair\n";
+        std::cout << CYAN << "  [6]" << RESET << " 👥 Créditos\n";
+        std::cout << CYAN << "  [7]" << RESET << " ❌ Sair\n";
         std::cout << MAGENTA << "────────────────────────────────────────────────\n" << RESET;
         std::cout << "Escolha uma opção: ";
         std::cin >> opçao;
@@ -93,6 +94,27 @@ int main() {
                 pauseScreen();
                 break;
             case 6:
+                clearScreen();
+                std::cout << MAGENTA << BOLD << "┌──────────────────────────────────────────────┐\n";
+                std::cout << "│                 👥 CRÉDITOS                  │\n";
+                std::cout << "└──────────────────────────────────────────────┘\n\n" << RESET;
+                std::cout << WHITE << BOLD << "  Desenvolvido por:\n\n" << RESET;
+                std::cout << CYAN << "   • Enzo Schubach\n" << RESET;
+                std::cout << CYAN << "   • Sofia Macêdo\n" << RESET;
+                std::cout << CYAN << "   • Mirella Costa\n\n" << RESET;
+                std::cout << MAGENTA << "  ──────────────────────────────────────────────\n\n" << RESET;
+                std::cout << WHITE << BOLD << "  Agradecimento Especial:\n\n" << RESET;
+                std::cout << WHITE << "  Em agradecimento especial à professora Maria Inês Restovic,\n"
+                          << "  por todo o conhecimento compartilhado, pela paciência,\n"
+                          << "  dedicação e compreensão ao longo deste semestre.\n\n"
+                          << "  Sua orientação foi fundamental para o nosso aprendizado\n"
+                          << "  e desenvolvimento desse projeto, cujo nome também foi\n"
+                          << "  uma referência ao nosso tão mencionado nodo.\n\n"
+                          << "  Nossa sincera gratidão! Nos vemos em ED2 ♥︎\n\n" << RESET;
+                std::cout << MAGENTA << "────────────────────────────────────────────────\n" << RESET;
+                pauseScreen();
+                break;
+            case 7:
                 clearScreen();
                 std::cout << GREEN << "\nSaindo... Agradecemos por usar a plataforma!\n\n" << RESET;
                 return 0;
@@ -141,73 +163,70 @@ void manageCatalog(ContentDatabase& db){
                 db.printAll();
                 pauseScreen();
                 break;
-            case 2: {
-                clearScreen();
-                std::cout << BLUE << BOLD << "┌──────────────────────────────────────────────┐\n";
-                std::cout << "│              INSERIR CONTEÚDO                │\n";
-                std::cout << "└──────────────────────────────────────────────┘\n\n" << RESET;
-                int id, duration, releaseYear;
-                std::string title, description, typeStr, genreStr;
+             case 2: {
+                 clearScreen();
+                 std::cout << BLUE << BOLD << "┌──────────────────────────────────────────────┐\n";
+                 std::cout << "│              INSERIR CONTEÚDO                │\n";
+                 std::cout << "└──────────────────────────────────────────────┘\n\n" << RESET;
+                 int id = 1;
+                 DoublyNode* currentDb = db.getStart();
+                 while (currentDb != nullptr) {
+                     if (currentDb->content.getId() >= id) {
+                         id = currentDb->content.getId() + 1;
+                     }
+                     currentDb = currentDb->next;
+                 }
+                 int duration, releaseYear;
+                 std::string title, description, typeStr, genreStr;
 
-                std::cout << "Digite o ID do conteúdo: ";
-                std::cin >> id;
-                if (std::cin.fail()) {
-                    std::cin.clear();
-                    std::cin.ignore(10000, '\n');
-                    std::cout << RED << "[!] ID inválido.\n" << RESET;
-                    pauseScreen();
-                    break;
-                }
-                std::cin.ignore(10000, '\n');
+                 std::cout << "Digite o Titulo: ";
+                 std::getline(std::cin, title);
 
-                std::cout << "Digite o Titulo: ";
-                std::getline(std::cin, title);
+                 std::cout << "Digite a Descricao: ";
+                 std::getline(std::cin, description);
 
-                std::cout << "Digite a Descricao: ";
-                std::getline(std::cin, description);
+                 std::cout << "Digite o tipo (Movie, Series, Documentary, Anime, Miniseries, Short Film, Reality Show, TV Program, Show): ";
+                 std::getline(std::cin, typeStr);
 
-                std::cout << "Digite o tipo (Movie, Series, Documentary, Anime, Miniseries, Short Film, Reality Show, TV Program, Show): ";
-                std::getline(std::cin, typeStr);
+                 std::cout << "Digite o gênero (Action, Comedy, Drama, Horror, Science Fiction, Romance, Thriller, Fantasy, Mystery, Crime, Animation): ";
+                 std::getline(std::cin, genreStr);
 
-                std::cout << "Digite o gênero (Action, Comedy, Drama, Horror, Science Fiction, Romance, Thriller, Fantasy, Mystery, Crime, Animation): ";
-                std::getline(std::cin, genreStr);
+                 std::cout << "Digite a duração (em minutos): ";
+                 std::cin >> duration;
+                 if (std::cin.fail()) {
+                     std::cin.clear();
+                     std::cin.ignore(10000, '\n');
+                     std::cout << RED << "[!] Duração inválida.\n" << RESET;
+                     pauseScreen();
+                     break;
+                 }
+                 std::cin.ignore(10000, '\n');
 
-                std::cout << "Digite a duração (em minutos): ";
-                std::cin >> duration;
-                if (std::cin.fail()) {
-                    std::cin.clear();
-                    std::cin.ignore(10000, '\n');
-                    std::cout << RED << "[!] Duração inválida.\n" << RESET;
-                    pauseScreen();
-                    break;
-                }
-                std::cin.ignore(10000, '\n');
+                 std::cout << "Digite o Ano de Lancamento: ";
+                 std::cin >> releaseYear;
+                 if (std::cin.fail()) {
+                     std::cin.clear();
+                     std::cin.ignore(10000, '\n');
+                     std::cout << RED << "[!] Ano invalido.\n" << RESET;
+                     pauseScreen();
+                     break;
+                 }
+                 std::cin.ignore(10000, '\n');
 
-                std::cout << "Digite o Ano de Lancamento: ";
-                std::cin >> releaseYear;
-                if (std::cin.fail()) {
-                    std::cin.clear();
-                    std::cin.ignore(10000, '\n');
-                    std::cout << RED << "[!] Ano invalido.\n" << RESET;
-                    pauseScreen();
-                    break;
-                }
-                std::cin.ignore(10000, '\n');
+                 try { 
+                     ContentType type = Content::stringToType(typeStr);
+                     Genre genre = Content::stringToGenre(genreStr);
 
-                try { 
-                    ContentType type = Content::stringToType(typeStr);
-                    Genre genre = Content::stringToGenre(genreStr);
-
-                    Content* newContent = new Content(id, title, description, type, genre, duration, releaseYear);
-                    db.insertContent(newContent);
-                    delete newContent;
-                    std::cout << GREEN << "\n[+] Conteudo \"" << title << "\" inserido com sucesso!\n" << RESET;
-                } catch (const std::exception& e) {
-                    std::cout << RED << "\n[!] Erro ao inserir conteudo: " << e.what() << "\n" << RESET;
-                }
-                pauseScreen();
-                break;
-            }
+                     Content* newContent = new Content(id, title, description, type, genre, duration, releaseYear);
+                     db.insertContent(newContent);
+                     delete newContent;
+                     std::cout << GREEN << "\n[+] Conteudo \"" << title << "\" inserido com sucesso com o ID: " << id << "!\n" << RESET;
+                 } catch (const std::exception& e) {
+                     std::cout << RED << "\n[!] Erro ao inserir conteudo: " << e.what() << "\n" << RESET;
+                 }
+                 pauseScreen();
+                 break;
+             }
             case 3: {
                 clearScreen();
                 std::cout << BLUE << BOLD << "┌──────────────────────────────────────────────┐\n";
@@ -360,7 +379,7 @@ void processSearch(ContentDatabase& db, MostWatchedContentHistory& history) {
         for (size_t i = 0; i < results.size(); ++i) {
             Content* content = results[i];
             std::cout << "  " << CYAN << "[" << (i + 1) << "]" << RESET << " " << content->getTitle() 
-                      << " \033[33m(" << content->genreToString(content->getGenre()) << ")\033[0m\n";
+                      << " \033[36m(" << content->genreToString(content->getGenre()) << ")\033[0m\n";
         }
         std::cout << "  ──────────────────────────────────────────────────\n\n";
 

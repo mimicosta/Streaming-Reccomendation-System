@@ -106,10 +106,10 @@ void ContentDatabase::printAll() {
         Content& c = current->content;
         std::cout
             << "  \033[36m\033[1m🎬 [" << count << "] " << c.getTitle() << "\033[0m\n"
-            << "     \033[33mID:\033[0m " << c.getId() << "\n"
-            << "     \033[33mTipo:\033[0m " << c.typeToString(c.getType()) << "\n"
-            << "     \033[33mGênero:\033[0m " << c.genreToString(c.getGenre()) << "\n"
-            << "     \033[33mAno:\033[0m " << c.getReleaseYear() << " | \033[33mDuração:\033[0m " << c.getDuration() << " min\n"
+            << "     \033[36mID:\033[0m " << c.getId() << "\n"
+            << "     \033[36mTipo:\033[0m " << c.typeToString(c.getType()) << "\n"
+            << "     \033[36mGênero:\033[0m " << c.genreToString(c.getGenre()) << "\n"
+            << "     \033[36mAno:\033[0m " << c.getReleaseYear() << " | \033[36mDuração:\033[0m " << c.getDuration() << " min\n"
             << "     \033[35mDescrição:\033[0m " << c.getDescription() << "\n"
             << "  \033[35m──────────────────────────────────────────────────\033[0m\n\n";
         current = current->next;
