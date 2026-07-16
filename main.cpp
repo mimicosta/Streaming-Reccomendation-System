@@ -6,6 +6,7 @@
 #include "Statistics.hpp"
 #include <string>
 #include <iostream>
+#include <fstream>
 
 const std::string RESET   = "\033[0m";
 const std::string BOLD    = "\033[1m";
@@ -30,9 +31,10 @@ std::string contentsPath = "setupFiles/contents.txt";
 std::string questionsPath = "setupFiles/questions.txt";
 std::string genreRecommendationPath = "setupFiles/genreRecommendation.txt";
 std::string typeRecommendationPath = "setupFiles/typeRecommendation.txt";
+std::string totalRecommendationsPath = "setupFiles/totalRecommendations.txt";
 
 void manageCatalog(ContentDatabase& db);
-void processRecommendation(ContentDatabase& db, BehaviorTree& tree, MostWatchedContentHistory& history);
+void processRecommendation(ContentDatabase& db, BehaviorTree& tree, MostWatchedContentHistory& history, int& totalRecommendations);
 void processSearch(ContentDatabase& db, MostWatchedContentHistory& history);
 void initializePresets(ContentDatabase& db, BehaviorTree& tree, MostWatchedContentHistory& history);
 
@@ -42,6 +44,14 @@ int main() {
     MostWatchedContentHistory history;
 
     initializePresets(db, tree, history);
+
+    int totalRecommendations = 0;
+    {
+        std::ifstream inFile(totalRecommendationsPath);
+        if (inFile.is_open()) {
+            inFile >> totalRecommendations;
+        }
+    }
 
     int opçao = 0;
 
@@ -75,7 +85,7 @@ int main() {
                 manageCatalog(db);
                 break;
             case 2:
-                processRecommendation(db, tree, history);
+                processRecommendation(db, tree, history, totalRecommendations);
                 break;
             case 3:
                 clearScreen();
@@ -101,7 +111,7 @@ int main() {
                 std::cout << CYAN << " • " << RESET << "Tipo menos recomendado: " << BOLD << dummy.typeToString(stats.typeLeastRecommended(db)) << RESET << "\n";
                 std::cout << CYAN << " • " << RESET << "Gênero mais recomendado: " << BOLD << dummy.genreToString(stats.genreMostRecommended(db)) << RESET << "\n";
                 std::cout << CYAN << " • " << RESET << "Gênero menos recomendado: " << BOLD << dummy.genreToString(stats.genreLeastRecommended(db)) << RESET << "\n";
-                std::cout << CYAN << " • " << RESET << "Total de recomendações realizadas: " << BOLD << stats.allTimeRecomendations(db) << RESET << "\n";
+                std::cout << CYAN << " • " << RESET << "Total de recomendações realizadas: " << BOLD << totalRecommendations << RESET << "\n";
                 std::cout << CYAN << " • " << RESET << "Total de visualizações da plataforma: " << BOLD << stats.allTimeVisualizations(db) << RESET << "\n\n";
 
                 std::cout << MAGENTA << "────────────────────────────────────────────────\n" << RESET;
@@ -164,6 +174,13 @@ int main() {
             case 7:
                 db.saveGenreCounts(genreRecommendationPath);
                 db.saveTypeCounts(typeRecommendationPath);
+
+                {
+                    std::ofstream outFile(totalRecommendationsPath);
+                    if (outFile.is_open()) {
+                        outFile << totalRecommendations;
+                    }
+                }
                 clearScreen();
                 std::cout << GREEN << "\nSaindo... Agradecemos por usar a plataforma!\n\n" << RESET;
                 return 0;
@@ -305,7 +322,7 @@ void manageCatalog(ContentDatabase& db){
     }
 }
 
-void processRecommendation(ContentDatabase& db, BehaviorTree& tree, MostWatchedContentHistory& history) {
+void processRecommendation(ContentDatabase& db, BehaviorTree& tree, MostWatchedContentHistory& history, int& totalRecommendations) {
     clearScreen();
     std::cout << MAGENTA << BOLD << "┌──────────────────────────────────────────────┐\n";
     std::cout << "│          🎬 RECOMENDAÇÃO PERSONALIZADA        │\n";
@@ -350,6 +367,9 @@ void processRecommendation(ContentDatabase& db, BehaviorTree& tree, MostWatchedC
         pauseScreen();
         return;
     }
+
+    //increment recommendation
+    totalRecommendations++;
 
     // Incrementa as estatísticas para CADA filme/série que apareceu na lista recomendada
     DoublyNode* recNode = filtered.getHead();
