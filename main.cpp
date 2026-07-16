@@ -3,6 +3,7 @@
 #include "MostWatchedContentHistory.hpp"
 #include "RecommendedContentList.hpp"
 #include "Search.hpp"
+#include "Statistics.hpp"
 #include <string>
 #include <iostream>
 
@@ -27,6 +28,8 @@ void pauseScreen() {
 
 std::string contentsPath = "setupFiles/contents.txt";
 std::string questionsPath = "setupFiles/questions.txt";
+std::string genreRecommendationPath = "setupFiles/genreRecommendation.txt";
+std::string typeRecommendationPath = "setupFiles/typeRecommendation.txt";
 
 void manageCatalog(ContentDatabase& db);
 void processRecommendation(ContentDatabase& db, BehaviorTree& tree, MostWatchedContentHistory& history);
@@ -85,14 +88,58 @@ int main() {
             case 4:
                 processSearch(db, history);
                 break;
-            case 5:
+            case 5: {
                 clearScreen();
                 std::cout << MAGENTA << BOLD << "┌──────────────────────────────────────────────┐\n";
                 std::cout << "│         📊 ESTATÍSTICAS GERAIS               │\n";
                 std::cout << "└──────────────────────────────────────────────┘\n\n" << RESET;
-                std::cout << "Recurso em desenvolvimento ou nenhuma estatística disponível.\n";
+                
+                Statistics stats;
+                Content dummy(0, "", "", ContentType::Movie, Genre::Action, 0, 0); // apenas para acessar conversores de Enum para String
+
+                std::cout << CYAN << " • " << RESET << "Tipo mais recomendado: " << BOLD << dummy.typeToString(stats.typeMostRecommended(db)) << RESET << "\n";
+                std::cout << CYAN << " • " << RESET << "Tipo menos recomendado: " << BOLD << dummy.typeToString(stats.typeLeastRecommended(db)) << RESET << "\n";
+                std::cout << CYAN << " • " << RESET << "Gênero mais recomendado: " << BOLD << dummy.genreToString(stats.genreMostRecommended(db)) << RESET << "\n";
+                std::cout << CYAN << " • " << RESET << "Gênero menos recomendado: " << BOLD << dummy.genreToString(stats.genreLeastRecommended(db)) << RESET << "\n";
+                std::cout << CYAN << " • " << RESET << "Total de recomendações realizadas: " << BOLD << stats.allTimeRecomendations(db) << RESET << "\n";
+                std::cout << CYAN << " • " << RESET << "Total de visualizações da plataforma: " << BOLD << stats.allTimeVisualizations(db) << RESET << "\n\n";
+
+                std::cout << MAGENTA << "────────────────────────────────────────────────\n" << RESET;
+                std::cout << CYAN << BOLD << " 🎬 Mais assistido por Tipo:\n" << RESET;
+                for (int i = 0; i < 9; i++) {
+                    ContentType t = static_cast<ContentType>(i);
+                    SimpleList l = stats.mostWatchedPerType(db, t);
+                    if (!l.isEmpty()) {
+                        std::cout << "    " << dummy.typeToString(t) << ": " << l.getQuestion(1) << "\n"; // getQuestion começa no index 1
+                    }
+                }
+
+                std::cout << "\n" << CYAN << BOLD << " 🎭 Mais assistido por Gênero:\n" << RESET;
+                for (int i = 0; i < 11; i++) {
+                    Genre g = static_cast<Genre>(i);
+                    SimpleList l = stats.mostWatchedPerGenre(db, g);
+                    if (!l.isEmpty()) {
+                        std::cout << "    " << dummy.genreToString(g) << ": " << l.getQuestion(1) << "\n";
+                    }
+                }
+
+                std::cout << "\n" << CYAN << BOLD << " 👻 Títulos nunca selecionados (0 views):\n" << RESET;
+                SimpleList never = stats.neverWatchedTitles(db);
+                if (never.isEmpty()) {
+                    std::cout << "    Todos os títulos do catálogo já foram assistidos pelo menos uma vez!\n";
+                } else {
+                    int idx = 1;
+                    while (true) {
+                        std::string title = never.getQuestion(idx);
+                        if (title == "") break;
+                        std::cout << "    - " << title << "\n";
+                        idx++;
+                    }
+                }
+                std::cout << "\n";
                 pauseScreen();
                 break;
+            }
             case 6:
                 clearScreen();
                 std::cout << MAGENTA << BOLD << "┌──────────────────────────────────────────────┐\n";
@@ -115,6 +162,8 @@ int main() {
                 pauseScreen();
                 break;
             case 7:
+                db.saveGenreCounts(genreRecommendationPath);
+                db.saveTypeCounts(typeRecommendationPath);
                 clearScreen();
                 std::cout << GREEN << "\nSaindo... Agradecemos por usar a plataforma!\n\n" << RESET;
                 return 0;
@@ -302,6 +351,14 @@ void processRecommendation(ContentDatabase& db, BehaviorTree& tree, MostWatchedC
         return;
     }
 
+    // Incrementa as estatísticas para CADA filme/série que apareceu na lista recomendada
+    DoublyNode* recNode = filtered.getHead();
+    while (recNode != nullptr) {
+        db.incrementGenreCount(recNode->content.getGenre());
+        db.incrementTypeCount(recNode->content.getType());
+        recNode = recNode->next;
+    }
+
     std::cout << CYAN << BOLD << "  🎬 TÍTULOS RECOMENDADOS DISPONÍVEIS:\n";
     std::cout << "  ──────────────────────────────────────────────────\n\n" << RESET;
     filtered.display();
@@ -410,6 +467,8 @@ void processSearch(ContentDatabase& db, MostWatchedContentHistory& history) {
 void initializePresets(ContentDatabase& db, BehaviorTree& tree, MostWatchedContentHistory& history) {
     db.readSetupFile(contentsPath);
     tree.readFile(questionsPath);
+    db.loadGenreCounts(genreRecommendationPath);
+    db.loadTypeCounts(typeRecommendationPath);
 
     // Inicializa o historico de mais assistidos a partir das views do banco
     DoublyNode* current = db.getStart();
